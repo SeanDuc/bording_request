@@ -2,11 +2,12 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from bored.models.activity import Activity
 import requests
+import sqlite3
 
 app = FastAPI()
 
 @app.get("/", response_class=HTMLResponse)
-async def home():
+def home():
     response = requests.get("https://www.boredapi.com/api/activity")
     response_json = response.json()
     #print(response_json["activity"])
@@ -20,6 +21,20 @@ async def home():
 
     #print(act.__dict__)
 
+
+    connection = sqlite3.connect('activity_data.db')
+    cur = connection.cursor()
+    #sql.execute(''' CREATE TABLE activ(FIND INT key, activity text, type text);''')
+
+    cur.execute("insert into activ values (?, ?, ?)", (response_json["key"], response_json["activity"], response_json["type"]))
+    connection.commit()
+
+    cursor = connection.execute("select * from activ")
+    data = ""
+    for row in cursor:
+        data += row[1] + "<br/>"
+    
+
     return """
     <html>
         <head>
@@ -27,7 +42,7 @@ async def home():
         </head>
         <body>
             <h1>Look ma! HTML!</h1>
-            <div> {activ}</div>
+            {rows}
         </body>
     </html>
-    """.format(activ = act.activity)
+    """.format(rows = data)
