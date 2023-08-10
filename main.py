@@ -6,18 +6,11 @@ import sqlite3
 
 app = FastAPI()
 
-@app.get("/act", response_class=RedirectResponse)
+@app.post("/act", response_class=RedirectResponse)
 def insert():
     response = requests.get("https://www.boredapi.com/api/activity")
     response_json = response.json()
     #print(response_json["activity"])
-
-    act = Activity(response_json["activity"], 
-                 response_json["type"], 
-                 response_json["participants"], 
-                 response_json["price"], 
-                 response_json["key"], 
-                 response_json["accessibility"])
 
     connection = sqlite3.connect('activity_data.db')
     cur = connection.cursor()
@@ -26,7 +19,7 @@ def insert():
     cur.execute("insert into activ values (?, ?, ?)", (response_json["key"], response_json["activity"], response_json["type"]))
     connection.commit()
 
-    return RedirectResponse(url='/')
+    return RedirectResponse('/', status_code=302)
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -46,7 +39,7 @@ def home():
         </head>
         <body>
             <h1>Look ma! HTML!</h1>
-            <form action="/act">
+            <form action="/act" method="POST">
                 <input type="submit" value="add activity">	
             </form>
             {rows}
