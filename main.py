@@ -1,6 +1,8 @@
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
+from mako.lookup import TemplateLookup
 from bored.models.activity import Activity
+from mako.template import Template
 import requests
 import sqlite3
 
@@ -23,26 +25,13 @@ def insert():
 
 
 @app.get("/", response_class=HTMLResponse)
-def home():
+def home(request: Request):
     connection = sqlite3.connect('activity_data.db')
     cur = connection.cursor()
-    cursor = connection.execute("select * from activ")
-    data = ""
-    for row in cursor:
-        data += row[1] + "<br/>"
+    cursor = cur.execute("select * from activ").fetchall()
+    views = TemplateLookup(directories=['views'])
+    templ = views.get_template("/home/index.html")
+    #for row in cursor:
+    #    print(row[1])
+    return HTMLResponse(templ.render(activities = cursor))
     
-
-    return """
-    <html>
-        <head>
-            <title>Some HTML in here</title>
-        </head>
-        <body>
-            <h1>Look ma! HTML!</h1>
-            <form action="/act" method="POST">
-                <input type="submit" value="add activity">	
-            </form>
-            {rows}
-        </body>
-    </html>
-    """.format(rows = data)

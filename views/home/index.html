@@ -1,0 +1,18 @@
+<html>
+        <head>
+            <title>Some HTML in here</title>
+        </head>
+        <body>
+            <h1>Activities</h1>
+            <form action="/act" method="POST">
+                <input type="submit" value="add activity">	
+            </form>
+            <table>
+                %for act in activities:
+                    <tr>
+                        <td> ${act[1]}</td>
+                    </tr>
+                % endfor
+            </table>
+        </body>
+    </html>
