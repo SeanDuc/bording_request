@@ -18,7 +18,6 @@ def home(request: Request):
     cursor = cur.execute("select * from activ").fetchall()
     templ = views.get_template("/home/index.html")
     html = templ.render(activities = cursor)
-    print(html)
     return HTMLResponse(html)
 
 @activities_router.post("/", response_class=RedirectResponse)
