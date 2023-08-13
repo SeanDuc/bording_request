@@ -1,8 +1,5 @@
 class Activity:
-    def __init__(self, activity, type, participants, price, key, accessibility):
-        self.activity = activity
-        self.type = type
-        self.participants = participants
-        self.price = price
-        self.key = key
-        self.accessibility = accessibility
+    def __init__(self, row):
+        self.key = row[0]
+        self.name = row[1]
+        self.type = row[2]

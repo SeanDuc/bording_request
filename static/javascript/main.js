@@ -1,1 +1,1 @@
-alert("This alert box was called to annoy you");
+console.log("This log was made to annoy you");

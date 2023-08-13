@@ -14,7 +14,7 @@
     <table>
         %for act in activities:
             <tr>
-               <td> ${act[1]}</td>
+               <td> <a href = "/activities/${act.key}"> ${act.name} </a> </td>
             </tr>
         % endfor
     </table>
