@@ -1,9 +1,12 @@
-from fastapi import FastAPI, Request, APIRouter, Depends
+from fastapi import FastAPI, Request, APIRouter, Depends, HTTPException, status
 from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.staticfiles import StaticFiles
 from mako.lookup import TemplateLookup
 from bored.models.activity import Activity
 from mako.template import Template
+from typing import Annotated
+import secrets
 import requests
 import sqlite3
 
@@ -14,6 +17,10 @@ views = TemplateLookup(directories=['views', 'views/activities'])
 def get_db():
     return sqlite3.connect('activity_data.sqlite')
 
+
+#@activities_router.get("/user")
+#def read_current_user(credentials: Annotated[HTTPBasicCredentials, Depends(security)]):
+#    return {"username": credentials.username, "password": credentials.password}
 
 @activities_router.get("/", response_class=HTMLResponse)
 def home(request: Request, con = Depends(get_db)):
@@ -42,7 +49,7 @@ def insert(request: Request, con = Depends(get_db)):
     return RedirectResponse('/activities', status_code=302)
 
 @activities_router.get("/{key}", response_class=HTMLResponse)
-def details(key: int, request: Request, con = Depends(get_db)):
+def details(key: int, request: Request):
     cur = con.cursor()
     cursor = cur.execute("select * from activ where key = ?", (key,)).fetchall()
     templ = views.get_template("/activities/details.html")
