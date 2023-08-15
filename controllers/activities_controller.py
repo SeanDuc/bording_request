@@ -41,7 +41,7 @@ def insert(request: Request, con = Depends(get_db)):
     response = requests.get("https://www.boredapi.com/api/activity")
     response_json = response.json()
     #print(response_json["activity"])
-    #sql.execute(''' CREATE TABLE activ(FIND INT key, activity text, type text);''')
+    #con.execute(''' CREATE TABLE activ(FIND INT key, activity text, type text);''')
 
     cur.execute("insert into activ values (?, ?, ?)", (response_json["key"], response_json["activity"], response_json["type"]))
     con.commit()
@@ -49,7 +49,7 @@ def insert(request: Request, con = Depends(get_db)):
     return RedirectResponse('/activities', status_code=302)
 
 @activities_router.get("/{key}", response_class=HTMLResponse)
-def details(key: int, request: Request):
+def details(key: int, request: Request, con = Depends(get_db)):
     cur = con.cursor()
     cursor = cur.execute("select * from activ where key = ?", (key,)).fetchall()
     templ = views.get_template("/activities/details.html")
