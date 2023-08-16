@@ -32,7 +32,7 @@ def post_activity(con = Depends(get_db)):
     con.commit()
     return
 
-class get_specific_activity:
+class GetSpecificActivity:
     #function being called
     def __call__(self, key: int, con = Depends(get_db)):
         cur = con.cursor()

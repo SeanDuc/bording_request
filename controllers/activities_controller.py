@@ -6,7 +6,7 @@ from mako.lookup import TemplateLookup
 from bored.models.activity import Activity
 from mako.template import Template
 from typing import Annotated
-from services.service_hub import get_all_activities, post_activity, get_specific_activity
+from services.service_hub import get_all_activities, post_activity, GetSpecificActivity
 import secrets
 import requests
 import sqlite3
@@ -30,7 +30,7 @@ def insert(request: Request, con = Depends(post_activity)):
     return RedirectResponse('/activities', status_code=302)
 
 @activities_router.get("/{key}", response_class=HTMLResponse)
-def details(request: Request, activity: str= Depends(get_specific_activity())):
+def details(request: Request, activity: str= Depends(GetSpecificActivity())):
     templ = views.get_template("/activities/details.html")
     html = templ.render(activity = activity)
     return HTMLResponse(html)
