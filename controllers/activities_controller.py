@@ -30,7 +30,7 @@ def insert(request: Request, con = Depends(post_activity)):
     return RedirectResponse('/activities', status_code=302)
 
 @activities_router.get("/{key}", response_class=HTMLResponse)
-def details(request: Request, activity: str= Depends(GetSpecificActivity())):
+def details(request: Request, activity= Depends(GetSpecificActivity())):
     templ = views.get_template("/activities/details.html")
     html = templ.render(activity = activity)
     return HTMLResponse(html)

@@ -9,6 +9,8 @@ fastapi = "*"
 uvicorn = {version = "*", extras = ["standard"]}
 mako = "*"
 bcrypt = "*"
+openai = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
