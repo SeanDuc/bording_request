@@ -52,4 +52,5 @@ def generate_instructions(prompt: str):
     prompt = "make instructions on how to " + prompt + " within 100 words"
     response = openai.Completion.create(engine="text-davinci-003", prompt=prompt, max_tokens=100)
     generated_text = response.choices[0].text
+    print(generated_text)
     return generated_text
