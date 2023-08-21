@@ -5,12 +5,14 @@ name = "pypi"
 
 [packages]
 responses = "*"
-fastapi = "*"
 uvicorn = {version = "*", extras = ["standard"]}
 mako = "*"
 bcrypt = "*"
 openai = "*"
 python-dotenv = "*"
+fastapi-sessions = "*"
+fastapi = "*"
+python-multipart = "*"
 
 [dev-packages]
 

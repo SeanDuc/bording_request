@@ -1,0 +1,14 @@
+<%inherit file="/layout/shared.html" />
+
+<%block name="head">
+    <title>Logout!!!!</title>
+</%block>
+
+
+<%block name="content">
+    <img src="/static/images/logo.png" id="home-logo"/>
+    <h1>Logout</h1>
+    <form action="/user/logout" method="POST">
+        <input type="submit" value="logout">	
+    </form>
+</%block>

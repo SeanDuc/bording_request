@@ -1,15 +1,7 @@
-from fastapi import FastAPI, Request, APIRouter, Depends, HTTPException, status
+from fastapi import Request, APIRouter, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from fastapi.staticfiles import StaticFiles
 from mako.lookup import TemplateLookup
-from bored.models.activity import Activity
-from mako.template import Template
-from typing import Annotated
 from services.service_hub import get_all_activities, post_activity, GetSpecificActivity
-import secrets
-import requests
-import sqlite3
 
 
 activities_router = APIRouter(prefix="/activities")
